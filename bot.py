@@ -46,7 +46,8 @@ def get_token(username, password):
 
 def create_post(content, token):
     url = "{url}/api/posts/".format(url=URL)
-    response = requests.post(url, data={'title':'title', 'content': content}, headers={
+   
+    response = requests.post(url, data={'title':username, 'content': content}, headers={
         'Authorization': 'Bearer ' + token
     })
     if response.status_code == 201:
@@ -59,7 +60,7 @@ def create_post(content, token):
 def like_post(post_id, token):
     url = "{url}/api/likes/".format(url=URL, data={'post':post_id, 'like':True})
     response = requests.put(url, headers={
-        'Authorization': 'Token ' + token
+        'Authorization': 'Bearer ' + token
     })
     return response.status_code == 201
 
@@ -67,7 +68,7 @@ def like_post(post_id, token):
 def unlike_post(post_id, token):
     url = "{url}/api/likes/".format(url=URL, data={'post':post_id, 'like':False})
     response = requests.put(url, headers={
-        'Authorization': 'Token ' + token
+        'Authorization': 'Bearer ' + token
     })
     return response.status_code == 201
 
@@ -105,4 +106,5 @@ if __name__ == '__main__':
         likes_count = random.randint(0, max_likes_per_user)
         for i in range(likes_count):
             post_id = random.choice(posts)
+            print(post_id)
             like_post(post_id, token)
